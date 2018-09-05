@@ -19,17 +19,14 @@ import { UiModule } from './ui/ui.module';
 import { HomeModule } from './home/home.module';
 import { LoginModule } from './login/login.module';
 import { BannerModule } from './banner/banner.module';
-import { MinibannerModule } from './minibanner/minibanner.module';
-import { AboutModule } from './about/about.module';
-import { ArticleModule } from './article/article.module';
 import { EventModule } from './event/event.module';
 import { ClientModule } from './client/client.module';
-import { ModalModule } from './modal/modal.module';
-import { BookingModule } from './booking/booking.module';
 import { EventGalleryModule } from './event-gallery/event-gallery.module';
-import { QuestionModule } from './question/question.module';
-import { SurveyModule } from './survey/survey.module';
 import { ReportModule } from './report/report.module';
+import { MessageModule } from './message/message.module';
+import { SectionModule } from './section/section.module';
+import { ProductModule } from './product/product.module';
+import { DepartmentModule } from './department/department.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,16 +38,13 @@ import { ReportModule } from './report/report.module';
     HomeModule,
     UiModule,
     BannerModule,
-    MinibannerModule,
-    AboutModule,
-    ArticleModule,
     ClientModule,
-    ModalModule,
     EventModule,
-    BookingModule,
-    QuestionModule,
-    SurveyModule,
     ReportModule,
+    MessageModule,
+    ProductModule,
+    DepartmentModule,
+    SectionModule,
     EventGalleryModule,
     UploadExampleModule,
     AngularFireModule.initializeApp(environment.firebase),

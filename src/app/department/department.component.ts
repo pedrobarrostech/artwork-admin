@@ -2,23 +2,25 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulati
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
+import * as firebase from 'firebase';
 
 import { DATATABLES_CONFIG } from '../core/_configs/datatable-pt-br.config';
 import { routerTransition } from '../core/_configs/router-transition.config';
 import { ScrollService } from '../core/_services/scroll.service';
-import { ClientService } from './client.service';
+import { DepartmentService } from './department.service';
+import { UploadService } from '../core/_services/upload.service';
 @Component({
   animations: [ routerTransition() ],
-  selector: 'app-client',
-  templateUrl: './client.component.html',
-  styleUrls: ['./client.component.scss'],
+  selector: 'app-department',
+  templateUrl: './department.component.html',
+  styleUrls: ['./department.component.scss'],
   encapsulation: ViewEncapsulation.Emulated
 })
-export class ClientComponent implements OnInit, OnDestroy, AfterViewInit {
-  addClientForm: FormGroup;
-  bannerEditImage = {};
-  client = {};
-  clients: any = [];
+export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
+  addDepartmentForm: FormGroup;
+  department = {};
+  departmentEditImage = {};
+  departments: any = [];
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -27,33 +29,22 @@ export class ClientComponent implements OnInit, OnDestroy, AfterViewInit {
   isEditing = false;
   isLoading = true;
 
-  private address = new FormControl('', Validators.required);
-  private city = new FormControl('', Validators.required);
-  private cpf = new FormControl('', Validators.required);
-  private date = new FormControl('', Validators.required);
+  private active = new FormControl('', Validators.required);
   private description = new FormControl('', Validators.required);
-  private email = new FormControl('', Validators.required);
-  private facebook = new FormControl('', Validators.required);
-  private infoMsg = { body: '', type: 'info'};
-  private lastname = new FormControl('', Validators.required);
-  private maritalStatus = new FormControl('', Validators.required);
+  private infoMsg = { body: '', type: 'info' };
   private name = new FormControl('', Validators.required);
-  private phone = new FormControl('', Validators.required);
-  private rg = new FormControl('', Validators.required);
-  private sex = new FormControl('', Validators.required);
-  private state = new FormControl('', Validators.required);
 
   constructor(
-    private _clientService: ClientService,
+    private _departmentService: DepartmentService,
     private _scrollService: ScrollService,
     private formBuilder: FormBuilder
   ) { }
 
-  addClient(): void {
+  addDepartment(): void {
     window.setTimeout(() => {
-      this._clientService.create(this.addClientForm.value).then(
+      this._departmentService.create(this.addDepartmentForm.value).then(
         () => {
-          this.addClientForm.reset();
+          this.addDepartmentForm.reset();
           this.rerender();
           this.scrollTo('table');
         },
@@ -64,16 +55,16 @@ export class ClientComponent implements OnInit, OnDestroy, AfterViewInit {
 
   cancelEditing(): void {
     this.isEditing = false;
-    this.client = {};
-    this.sendInfoMsg('Edição de client cancelada.', 'warning');
+    this.department = {};
+    this.sendInfoMsg('Edição de department cancelada.', 'warning');
   }
 
-  deleteClient(client): void {
-    if (window.confirm('Tem certeza que quer deletar este client?')) {
-      this._clientService.delete(client.id).then(
+  deleteDepartment(department): void {
+    if (window.confirm('Tem certeza que quer deletar este department?')) {
+      this._departmentService.delete(department.id).then(
         () => {
-          this.sendInfoMsg('Client deletado com sucesso.', 'success');
-          this.getClients();
+          this.sendInfoMsg('Department deletado com sucesso.', 'success');
+          this.getDepartments();
           this.rerender();
         },
         error => console.error(error)
@@ -81,27 +72,27 @@ export class ClientComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  editClient(client): void {
-
-    this._clientService.update(client.id, client).then(
-      res => {
+  editDepartment(department): void {
+    this._departmentService.update(department.id, department).then(
+      () => {
         this.isEditing = false;
-        this.sendInfoMsg('Client editado com sucesso.', 'success');
+        this.sendInfoMsg('Department editado com sucesso.', 'success');
         this.rerender();
       },
       error => console.error(error)
     );
   }
 
-  enableEditing(client): void {
+  enableEditing(department): void {
     this.isEditing = true;
-    this.client = client;
+    this.department = department;
+
   }
 
-  getClients(): void {
-    this._clientService.getData().subscribe(
+  getDepartments(): void {
+    this._departmentService.getData().subscribe(
       data => {
-        this.clients = data;
+        this.departments = data;
         this.rerender();
       },
       error => console.error(error),
@@ -119,22 +110,11 @@ export class ClientComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.dtOptions = DATATABLES_CONFIG;
-    this.getClients();
-    this.addClientForm = this.formBuilder.group({
+    this.getDepartments();
+    this.addDepartmentForm = this.formBuilder.group({
       name: this.name,
-      lastname: this.lastname,
-      rg: this.rg,
-      cpf: this.cpf,
-      maritalStatus: this.maritalStatus,
-      sex: this.sex,
-      city: this.city,
-      address: this.address,
-      state: this.state,
-      phone: this.phone,
-      facebook: this.facebook,
-      email: this.email,
-      date: this.date,
-      description: this.description
+      description: this.description,
+      active: this.active
     });
   }
 
@@ -142,7 +122,7 @@ export class ClientComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.dtElement && this.dtElement.dtInstance) {
       this.dtElement.dtInstance.then(
         (dtInstance: DataTables.Api) => {
-          // Destroy the table first
+            // Destroy the table first
           dtInstance.destroy();
           // Call the dtTrigger to rerender again
           this.dtTrigger.next();
@@ -161,4 +141,5 @@ export class ClientComponent implements OnInit, OnDestroy, AfterViewInit {
     this.infoMsg.type = type;
     window.setTimeout(() => this.infoMsg.body = '', time);
   }
+
 }

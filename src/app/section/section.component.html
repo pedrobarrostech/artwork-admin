@@ -1,0 +1,169 @@
+<div [@routerTransition]>
+  <h1>
+    <span class="icon has-text-success">
+      <i class="fas fa-puzzle-piece"></i>
+    </span> &nbsp; Áreas
+  </h1>
+  <hr>
+
+  <div *ngIf="isLoading">
+    <div>
+
+      <h3>
+        <span class="icon has-text-danger">
+          <i class="fas fa-plus"></i>
+        </span> &nbsp; Adicionar novo
+      </h3>
+
+      <form [formGroup]="addSectionForm" (ngSubmit)="addSection()">
+        <div class="field">
+          <label for="name" class="label">Nome</label>
+          <div class="control">
+            <input class="input" placeholder="Nome" name="name" formControlName="name" type="text" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="image" class="label">Imagem</label>
+          <div class="file">
+            <label class="file-label">
+              <input class="file-input" type="file" name="image" value="" #fileInput (change)="onFileChange($event)">
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label">
+                  Choose a file…
+                </span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="info" class="label">Texto 1</label>
+          <div class="control">
+            <ngx-trumbowyg-editor name="info" formControlName="info"></ngx-trumbowyg-editor>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="description" class="label">Texto 2</label>
+          <div class="control">
+            <ngx-trumbowyg-editor name="description" formControlName="description"></ngx-trumbowyg-editor>
+          </div>
+        </div>
+
+
+        <br />
+        <div class="field">
+          <button type="submit" class="button is-success" name="submit" [disabled]="!addSectionForm.valid">
+            <i class="fa fa-plus"></i> &nbsp; Adicionar
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <hr>
+
+
+
+    <div *ngIf="sections">
+      <h3>
+        <span class="icon has-text-warning">
+          <i class="fas fa-puzzle-piece"></i>
+        </span> &nbsp;
+        Áreas ({{ sections.length }})
+      </h3>
+
+      <div [hidden]="!infoMsg.body" class="notification is-{{infoMsg.type}}" role="alert">
+        {{ infoMsg.body }}
+      </div>
+
+      <div class="table-flex">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-striped">
+          <thead class="thead-default">
+            <tr>
+              <th width="30%">Nome</th>
+              <th width="20%">Imagem</th>
+              <th align="center" width="30%">Ações</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="sections.length > 0">
+            <tr *ngFor="let section of sections">
+              <td>{{ section.name }}</td>
+              <td align="center">
+                <img src="{{ section.image ? section.image: 'assets/images/no-image.png' }}" alt="{{ section.name }}" width="50" />
+              </td>
+              <td align="center">
+                <button class="button is-small is-warning" (click)="enableEditing(section)">
+                  <i class="fa fa-edit"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="isEditing">
+            <tr>
+              <td colspan="3">
+                <form #form="ngForm" (ngSubmit)="editSection(section)">
+                  <div class="field">
+                    <label for="name" class="label">Nome</label>
+                    <input class="input" type="text" name="name" placeholder="Name" [(ngModel)]="section.name" required>
+                  </div>
+
+                  <div class="field">
+                    <label for="image" class="label">Imagem</label>
+                    <div class="file">
+                      <label class="file-label">
+                        <input class="file-input" type="file" name="image" value="" (change)="onFileChange($event)">
+                        <span class="file-cta">
+                          <span class="file-icon">
+                            <i class="fas fa-upload"></i>
+                          </span>
+                          <span class="file-label">
+                            Choose a file…
+                          </span>
+                        </span>
+                      </label>
+                    </div>
+                    <br />
+                    <img src="{{ section.image ? section.image: 'assets/images/no-image.png' }}" width="50" />
+                  </div>
+
+                  <div class="field">
+                    <label for="info" class="label">Informação</label>
+                    <div class="control">
+                      <ngx-trumbowyg-editor name="info" [(ngModel)]="section.info"></ngx-trumbowyg-editor>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label for="description" class="label">Descrição</label>
+                    <div class="control">
+                      <ngx-trumbowyg-editor name="description" [(ngModel)]="section.description"></ngx-trumbowyg-editor>
+                    </div>
+                  </div>
+
+                  <br />
+
+                  <div class="field">
+                    <button class="button is-success" type="submit" [disabled]="!imageUploadStatus">
+                      <i class="fa fa-floppy-o"></i> &nbsp; Salvar
+                    </button>
+                    <button class="button is-danger" (click)="cancelEditing()">
+                      <i class="fa fa-times"></i> &nbsp; Cancelar
+                    </button>
+                  </div>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading" class="loading">
+    <img src="assets/images/load.gif" alt="Carregando" />
+  </div>
+</div>

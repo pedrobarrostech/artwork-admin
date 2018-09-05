@@ -2,14 +2,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { ClientComponent } from './client.component';
+import { MessageComponent } from './message.component';
 import { AuthGuard } from '../core/_guards/auth.guard';
 
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: 'clientes', component: ClientComponent, canActivate: [AuthGuard] }
+      { path: 'mensagens', component: MessageComponent, canActivate: [AuthGuard] }
     ])
   ]
 })
-export class ClientRoute { }
+export class MessageRoute { }

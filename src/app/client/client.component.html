@@ -1,9 +1,9 @@
 <div [@routerTransition]>
   <h1>
     <span class="icon has-text-success">
-      <i class="fas fa-phone"></i>
+      <i class="fas fa-users"></i>
     </span> &nbsp;
-    Whatsapp
+    Clientes
   </h1>
 
   <hr />
@@ -27,6 +27,75 @@
         </div>
 
         <div class="field">
+          <label for="lastname" class="label">Sobrenome</label>
+          <div class="control">
+            <input class="input" placeholder="Sobrenome" name="lastname" formControlName="lastname" type="text" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="rg" class="label">RG</label>
+          <div class="control">
+            <input class="input" placeholder="RG" name="rg" formControlName="rg" type="text" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="cpf" class="label">CPF</label>
+          <div class="control">
+            <input class="input" placeholder="CPF" name="cpf" formControlName="cpf" type="text" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="maritalStatus" class="label">Estado Civil</label>
+          <div class="control">
+            <label class="radio">
+              <input type="radio" name="maritalStatus" formControlName="maritalStatus" value="Solteiro" /> Solteiro (a)
+            </label>
+            <label class="radio">
+              <input type="radio" name="maritalStatus" formControlName="maritalStatus" value="Casado" /> Casado (a)
+            </label>
+            <label class="radio">
+              <input type="radio" name="maritalStatus" formControlName="maritalStatus" value="Outro" /> Outro
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="sex" class="label">Sexo</label>
+          <div class="control">
+            <label class="radio">
+              <input type="radio" name="sex" formControlName="sex" value="Feminino" /> Feminino
+            </label>
+            <label class="radio">
+              <input type="radio" name="sex" formControlName="sex" value="Masculino" /> Masculino
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="city" class="label">Cidade</label>
+          <div class="control">
+            <input class="input" placeholder="Cidade" name="city" formControlName="city" type="text" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="address" class="label">Endereço</label>
+          <div class="control">
+            <input class="input" placeholder="Endereço" name="address" formControlName="address" type="text" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="state" class="label">Estado</label>
+          <div class="control">
+            <input class="input" placeholder="Estado" name="state" formControlName="state" type="text" />
+          </div>
+        </div>
+
+        <div class="field">
           <label for="phone" class="label">Telefone</label>
           <div class="control">
             <input class="input" placeholder="Telefone" name="phone" formControlName="phone" type="text" />
@@ -34,16 +103,39 @@
         </div>
 
         <div class="field">
-          <label for="isOnGroup" class="label">Esta no grupo?</label>
+          <label for="facebook" class="label">Facebook</label>
           <div class="control">
-            <label class="radio">
-              <input type="radio" name="isOnGroup" formControlName="isOnGroup" value="1" /> Sim
-            </label>
-            <label class="radio">
-              <input type="radio" name="isOnGroup" formControlName="isOnGroup" value="0" /> Não
-            </label>
+            <input class="input" placeholder="Facebook" name="facebook" formControlName="facebook" type="text" />
           </div>
         </div>
+
+        <div class="field">
+          <label for="email" class="label">E-mail</label>
+          <div class="control">
+            <input class="input" placeholder="E-mail" name="email" formControlName="email" type="text" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="date" class="label">Data de nascimento</label>
+          <div class="control">
+            <p class="control has-icons-left">
+              <input [owlDateTime]="date" class="input" [owlDateTimeTrigger]="date" name="date" formControlName="date">
+              <span class="icon is-small is-left">
+                <i class="fas fa-calendar-alt"></i>
+              </span>
+            </p>
+            <owl-date-time [pickerType]="'calendar'" [startView]="'year'" #date></owl-date-time>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="cpf" class="label">Observações</label>
+          <div class="control">
+            <ngx-trumbowyg-editor name="description" formControlName="description"></ngx-trumbowyg-editor>
+          </div>
+        </div>
+
         <div class="field">
           <button type="submit" class="button is-success" name="submit" [disabled]="!addClientForm.valid">
             <i class="fa fa-plus"></i> &nbsp;
@@ -58,9 +150,9 @@
     <div *ngIf="clients">
       <h3>
         <span class="icon has-text-warning">
-          <i class="fas fa-phone"></i>
+          <i class="fas fa-users"></i>
         </span> &nbsp;
-        Whatsapps ({{ clients.length }})
+        Clientes ({{ clients.length }})
       </h3>
 
       <div [hidden]="!infoMsg.body" class="notification is-{{ infoMsg.type }}" role="alert">
@@ -73,7 +165,6 @@
             <tr>
               <th width="30%">Nome</th>
               <th width="20%">Telefone</th>
-              <th width="20%">Está no grupo?</th>
               <th align="center" width="30%">Ações</th>
             </tr>
           </thead>
@@ -94,7 +185,7 @@
           </tbody>
           <tbody *ngIf="isEditing">
             <tr>
-              <td colspan="4">
+              <td colspan="3">
                 <form #form="ngForm" (ngSubmit)="editClient(client)">
                   <div class="field">
                     <label for="name" class="label">Nome</label>
@@ -102,24 +193,116 @@
                   </div>
 
                   <div class="field">
-                    <label for="name" class="label">Telefone</label>
+                    <label for="lastname" class="label">Sobrenome</label>
                     <div class="control">
-                      <input class="input" placeholder="Telefone" name="phone" type="text" [(ngModel)]="client.phone" required />
+                      <input class="input" placeholder="Sobrenome" name="lastname" [(ngModel)]="client.lastname" type="text" />
                     </div>
                   </div>
-
+          
                   <div class="field">
-                    <label for="isOnGroup" class="label">Esta no grupo?</label>
+                    <label for="rg" class="label">RG</label>
+                    <div class="control">
+                      <input class="input" placeholder="RG" name="rg" [(ngModel)]="client.rg" type="text" />
+                    </div>
+                  </div>
+          
+                  <div class="field">
+                    <label for="cpf" class="label">CPF</label>
+                    <div class="control">
+                      <input class="input" placeholder="CPF" name="cpf" [(ngModel)]="client.cpf" type="text" />
+                    </div>
+                  </div>
+          
+                  <div class="field">
+                    <label for="maritalStatus" class="label">Estado Civil</label>
                     <div class="control">
                       <label class="radio">
-                        <input type="radio" name="isOnGroup" [(ngModel)]="client.isOnGroup" value="1" /> Sim
+                        <input type="radio" name="maritalStatus" [(ngModel)]="client.maritalStatus" value="Solteiro" /> Solteiro (a)
                       </label>
                       <label class="radio">
-                        <input type="radio" name="isOnGroup" [(ngModel)]="client.isOnGroup" value="0" /> Não
+                        <input type="radio" name="maritalStatus" [(ngModel)]="client.maritalStatus" value="Casado" /> Casado (a)
+                      </label>
+                      <label class="radio">
+                        <input type="radio" name="maritalStatus" [(ngModel)]="client.maritalStatus" value="Outro" /> Outro
                       </label>
                     </div>
                   </div>
+          
+                  <div class="field">
+                    <label for="sex" class="label">Sexo</label>
+                    <div class="control">
+                      <label class="radio">
+                        <input type="radio" name="sex" [(ngModel)]="client.sex" value="Feminino" /> Feminino
+                      </label>
+                      <label class="radio">
+                        <input type="radio" name="sex" [(ngModel)]="client.sex" value="Masculino" /> Masculino
+                      </label>
+                    </div>
+                  </div>
+          
+                  <div class="field">
+                    <label for="city" class="label">Cidade</label>
+                    <div class="control">
+                      <input class="input" placeholder="Cidade" name="city" [(ngModel)]="client.city" type="text" />
+                    </div>
+                  </div>
+          
+                  <div class="field">
+                    <label for="address" class="label">Endereço</label>
+                    <div class="control">
+                      <input class="input" placeholder="Endereço" name="address" [(ngModel)]="client.address" type="text" />
+                    </div>
+                  </div>
+          
+                  <div class="field">
+                    <label for="state" class="label">Estado</label>
+                    <div class="control">
+                      <input class="input" placeholder="Estado" name="state" [(ngModel)]="client.state" type="text" />
+                    </div>
+                  </div>
+          
+                  <div class="field">
+                    <label for="phone" class="label">Telefone</label>
+                    <div class="control">
+                      <input class="input" placeholder="Telefone" name="phone" [(ngModel)]="client.phone" type="text" />
+                    </div>
+                  </div>
+          
+                  <div class="field">
+                    <label for="facebook" class="label">Facebook</label>
+                    <div class="control">
+                      <input class="input" placeholder="Facebook" name="facebook" [(ngModel)]="client.facebook" type="text" />
+                    </div>
+                  </div>
+          
+                  <div class="field">
+                    <label for="email" class="label">E-mail</label>
+                    <div class="control">
+                      <input class="input" placeholder="E-mail" name="email" [(ngModel)]="client.email" type="text" />
+                    </div>
+                  </div>
+          
+                  <div class="field">
+                    <label for="date" class="label">Data de nascimento</label>
+                    <div class="control">
+                      <p class="control has-icons-left">
+                        <input class="input" [owlDateTime]="date" name="date" [owlDateTimeTrigger]="date" [(ngModel)]="client.date">
 
+                        <span class="icon is-small is-left">
+                          <i class="fas fa-calendar-alt"></i>
+                        </span>
+                      </p>
+                      <owl-date-time [pickerType]="'calendar'" [startView]="'year'" #date></owl-date-time>
+                    </div>
+                  </div>
+          
+                  <div class="field">
+                    <label for="cpf" class="label">Observações</label>
+                    <div class="control">
+                      <ngx-trumbowyg-editor name="description" [(ngModel)]="client.description" ></ngx-trumbowyg-editor>
+                    </div>
+                  </div>
+          
                   <br />
 
                   <div class="field">

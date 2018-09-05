@@ -6,19 +6,17 @@ import { DataTableDirective } from 'angular-datatables';
 import { DATATABLES_CONFIG } from '../core/_configs/datatable-pt-br.config';
 import { routerTransition } from '../core/_configs/router-transition.config';
 import { ScrollService } from '../core/_services/scroll.service';
-import { ClientService } from './client.service';
+import { MessageService } from './message.service';
 @Component({
   animations: [ routerTransition() ],
-  selector: 'app-client',
-  templateUrl: './client.component.html',
-  styleUrls: ['./client.component.scss'],
+  selector: 'app-message',
+  templateUrl: './message.component.html',
+  styleUrls: ['./message.component.scss'],
   encapsulation: ViewEncapsulation.Emulated
 })
-export class ClientComponent implements OnInit, OnDestroy, AfterViewInit {
-  addClientForm: FormGroup;
+export class MessageComponent implements OnInit, OnDestroy, AfterViewInit {
+  addMessageForm: FormGroup;
   bannerEditImage = {};
-  client = {};
-  clients: any = [];
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -26,34 +24,27 @@ export class ClientComponent implements OnInit, OnDestroy, AfterViewInit {
   imageUploadStatus = true;
   isEditing = false;
   isLoading = true;
+  message = {};
+  messages: any = [];
 
-  private address = new FormControl('', Validators.required);
-  private city = new FormControl('', Validators.required);
-  private cpf = new FormControl('', Validators.required);
-  private date = new FormControl('', Validators.required);
   private description = new FormControl('', Validators.required);
   private email = new FormControl('', Validators.required);
-  private facebook = new FormControl('', Validators.required);
   private infoMsg = { body: '', type: 'info'};
-  private lastname = new FormControl('', Validators.required);
-  private maritalStatus = new FormControl('', Validators.required);
   private name = new FormControl('', Validators.required);
   private phone = new FormControl('', Validators.required);
-  private rg = new FormControl('', Validators.required);
-  private sex = new FormControl('', Validators.required);
-  private state = new FormControl('', Validators.required);
+  private subject = new FormControl('', Validators.required);
 
   constructor(
-    private _clientService: ClientService,
+    private _messageService: MessageService,
     private _scrollService: ScrollService,
     private formBuilder: FormBuilder
   ) { }
 
-  addClient(): void {
+  addMessage(): void {
     window.setTimeout(() => {
-      this._clientService.create(this.addClientForm.value).then(
+      this._messageService.create(this.addMessageForm.value).then(
         () => {
-          this.addClientForm.reset();
+          this.addMessageForm.reset();
           this.rerender();
           this.scrollTo('table');
         },
@@ -64,16 +55,16 @@ export class ClientComponent implements OnInit, OnDestroy, AfterViewInit {
 
   cancelEditing(): void {
     this.isEditing = false;
-    this.client = {};
-    this.sendInfoMsg('Edição de client cancelada.', 'warning');
+    this.message = {};
+    this.sendInfoMsg('Edição de message cancelada.', 'warning');
   }
 
-  deleteClient(client): void {
-    if (window.confirm('Tem certeza que quer deletar este client?')) {
-      this._clientService.delete(client.id).then(
+  deleteMessage(message): void {
+    if (window.confirm('Tem certeza que quer deletar este mensagem?')) {
+      this._messageService.delete(message.id).then(
         () => {
-          this.sendInfoMsg('Client deletado com sucesso.', 'success');
-          this.getClients();
+          this.sendInfoMsg('Mensagem deletado com sucesso.', 'success');
+          this.getMessages();
           this.rerender();
         },
         error => console.error(error)
@@ -81,27 +72,27 @@ export class ClientComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  editClient(client): void {
+  editMessage(message): void {
 
-    this._clientService.update(client.id, client).then(
+    this._messageService.update(message.id, message).then(
       res => {
         this.isEditing = false;
-        this.sendInfoMsg('Client editado com sucesso.', 'success');
+        this.sendInfoMsg('Mensagem editado com sucesso.', 'success');
         this.rerender();
       },
       error => console.error(error)
     );
   }
 
-  enableEditing(client): void {
+  enableEditing(message): void {
     this.isEditing = true;
-    this.client = client;
+    this.message = message;
   }
 
-  getClients(): void {
-    this._clientService.getData().subscribe(
+  getMessages(): void {
+    this._messageService.getData().subscribe(
       data => {
-        this.clients = data;
+        this.messages = data;
         this.rerender();
       },
       error => console.error(error),
@@ -119,21 +110,12 @@ export class ClientComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.dtOptions = DATATABLES_CONFIG;
-    this.getClients();
-    this.addClientForm = this.formBuilder.group({
+    this.getMessages();
+    this.addMessageForm = this.formBuilder.group({
       name: this.name,
-      lastname: this.lastname,
-      rg: this.rg,
-      cpf: this.cpf,
-      maritalStatus: this.maritalStatus,
-      sex: this.sex,
-      city: this.city,
-      address: this.address,
-      state: this.state,
       phone: this.phone,
-      facebook: this.facebook,
       email: this.email,
-      date: this.date,
+      subject: this.subject,
       description: this.description
     });
   }
