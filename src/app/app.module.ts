@@ -22,7 +22,6 @@ import { BannerModule } from './banner/banner.module';
 import { EventModule } from './event/event.module';
 import { ClientModule } from './client/client.module';
 import { EventGalleryModule } from './event-gallery/event-gallery.module';
-import { ReportModule } from './report/report.module';
 import { MessageModule } from './message/message.module';
 import { SectionModule } from './section/section.module';
 import { ProductModule } from './product/product.module';
@@ -40,7 +39,6 @@ import { DepartmentModule } from './department/department.module';
     BannerModule,
     ClientModule,
     EventModule,
-    ReportModule,
     MessageModule,
     ProductModule,
     DepartmentModule,

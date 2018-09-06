@@ -26,7 +26,7 @@
         <div class="field">
           <label for="description" class="label">Descrição</label>
           <div class="control">
-            <ngx-trumbowyg-editor name="description" formControlName="description"></ngx-trumbowyg-editor>
+            <textarea class="input" name="description" formControlName="description"></textarea>
           </div>
         </div>
 
@@ -71,7 +71,6 @@
           <thead class="thead-default">
             <tr>
               <th width="30%">Nome</th>
-              <th width="20%">Imagem</th>
               <th width="20%">Ativo</th>
               <th align="center" width="30%">Ações</th>
             </tr>
@@ -79,9 +78,6 @@
           <tbody *ngIf="departments.length > 0">
             <tr *ngFor="let department of departments">
               <td>{{ department.name }}</td>
-              <td align="center">
-                <img src="{{ department.image ? department.image: 'assets/images/no-image.png' }}" alt="{{ department.name }}" width="50" />
-              </td>
               <td align="center" class="{{ department.active == 1 ? 'has-text-success': 'has-text-danger' }}">{{ department.active == 1 ? 'Sim': 'Não' }}</td>
               <td align="center">
                 <button class="button is-small is-warning" (click)="enableEditing(department)">
@@ -105,7 +101,7 @@
                   <div class="field">
                     <label for="description" class="label">Descrição</label>
                     <div class="control">
-                      <ngx-trumbowyg-editor name="description" [(ngModel)]="department.description"></ngx-trumbowyg-editor>
+                      <textarea class="input" name="description" [(ngModel)]="department.description"></textarea>
                     </div>
                   </div>
 

@@ -50,7 +50,7 @@
         <div class="field">
           <label for="description" class="label">Descrição</label>
           <div class="control">
-            <ngx-trumbowyg-editor name="description" formControlName="description"></ngx-trumbowyg-editor>
+            <textarea class="input"  name="description" formControlName="description"></textarea>
           </div>
         </div>
 
@@ -135,7 +135,7 @@
                   <div class="field">
                     <label for="description" class="label">Descrição</label>
                     <div class="control">
-                      <ngx-trumbowyg-editor name="description" [(ngModel)]="message.description"></ngx-trumbowyg-editor>
+                      <textarea class="input"  name="description" [(ngModel)]="message.description"></textarea>
                     </div>
                   </div>
 

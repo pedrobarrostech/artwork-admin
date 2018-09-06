@@ -29,8 +29,8 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
   isEditing = false;
   isLoading = true;
 
-  private active = new FormControl('', Validators.required);
-  private description = new FormControl('', Validators.required);
+  private active = new FormControl('');
+  private description = new FormControl('');
   private infoMsg = { body: '', type: 'info' };
   private name = new FormControl('', Validators.required);
 
@@ -73,6 +73,7 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   editDepartment(department): void {
+    console.warn(department);
     this._departmentService.update(department.id, department).then(
       () => {
         this.isEditing = false;

@@ -24,39 +24,6 @@
         </div>
 
         <div class="field">
-          <label for="link" class="label">Link</label>
-          <div class="control">
-            <input class="input" placeholder="Link" name="link" formControlName="link" type="text" />
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="dateInit" class="label">Data Inicial</label>
-          <div class="control">
-            <p class="control has-icons-left">
-              <input [owlDateTime]="dateInit" class="input" [owlDateTimeTrigger]="dateInit" name="dateInit" formControlName="dateInit">
-              <span class="icon is-small is-left">
-                <i class="fas fa-calendar-alt"></i>
-              </span>
-            </p>
-            <owl-date-time #dateInit></owl-date-time>
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="dateFinal" class="label">Data Final</label>
-          <div class="control">
-            <p class="control has-icons-left">
-              <input [owlDateTime]="dateFinal" class="input" [owlDateTimeTrigger]="dateFinal" name="dateFinal" formControlName="dateFinal">
-              <span class="icon is-small is-left">
-                <i class="fas fa-calendar-alt"></i>
-              </span>
-            </p>
-            <owl-date-time #dateFinal></owl-date-time>
-          </div>
-        </div>
-
-        <div class="field">
           <label for="image" class="label">Imagem</label>
           <div class="file">
             <label class="file-label">
@@ -151,41 +118,6 @@
                   <div class="field">
                     <label for="name" class="label">Nome</label>
                     <input class="input" type="text" name="name" placeholder="Name" [(ngModel)]="banner.name" required>
-                  </div>
-
-                  <div class="field">
-                    <label for="name" class="label">Link</label>
-                    <div class="control">
-                      <input class="input" placeholder="Link" name="link" type="text" [(ngModel)]="banner.link" required />
-                    </div>
-                  </div>
-
-                  <div class="field">
-                    <label for="dateInit" class="label">Data Inicial</label>
-                    <div class="control">
-                      <p class="control has-icons-left">
-                        <input class="input" [owlDateTime]="dateInit" name="dateInit" [owlDateTimeTrigger]="dateInit" [(ngModel)]="banner.dateInit">
-
-                        <span class="icon is-small is-left">
-                          <i class="fas fa-calendar-alt"></i>
-                        </span>
-                      </p>
-                      <owl-date-time #dateInit></owl-date-time>
-                    </div>
-                  </div>
-
-                  <div class="field">
-                    <label for="dateFinal" class="label">Data Final</label>
-                    <div class="control">
-                      <p class="control has-icons-left">
-                        <input class="input" [owlDateTime]="dateFinal" name="dateFinal" [owlDateTimeTrigger]="dateFinal" [(ngModel)]="banner.dateFinal">
-
-                        <span class="icon is-small is-left">
-                          <i class="fas fa-calendar-alt"></i>
-                        </span>
-                      </p>
-                      <owl-date-time #dateFinal></owl-date-time>
-                    </div>
                   </div>
 
                   <div class="field">

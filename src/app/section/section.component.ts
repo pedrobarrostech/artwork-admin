@@ -29,10 +29,10 @@ export class SectionComponent implements OnInit, OnDestroy, AfterViewInit {
   sectionEditImage = {};
   sections: any = [];
 
-  private description = new FormControl('', Validators.required);
+  private description = new FormControl('');
   private imageEdit;
   private imageEditRef;
-  private info = new FormControl('', Validators.required);
+  private info = new FormControl('');
   private infoMsg = { body: '', type: 'info' };
   private name = new FormControl('', Validators.required);
 

@@ -50,7 +50,7 @@
         <div class="field">
           <label for="description" class="label">Descrição</label>
           <div class="control">
-            <ngx-trumbowyg-editor name="description" formControlName="description"></ngx-trumbowyg-editor>
+            <textarea class="input"  name="description" formControlName="description"></textarea>
           </div>
         </div>
 
@@ -106,7 +106,6 @@
               <td align="center">
                 <img src="{{ product.image ? product.image: 'assets/images/no-image.png' }}" alt="{{ product.name }}" width="50" />
               </td>
-              <td align="center">{{ product.order }}</td>
               <td align="center" class="{{ product.active == 1 ? 'has-text-success': 'has-text-danger' }}">{{ product.active == 1 ? 'Sim': 'Não' }}</td>
               <td align="center">
                 <button class="button is-small is-warning" (click)="enableEditing(product)">
@@ -156,7 +155,7 @@
                   <div class="field">
                     <label for="description" class="label">Descrição</label>
                     <div class="control">
-                      <ngx-trumbowyg-editor name="description" [(ngModel)]="product.description"></ngx-trumbowyg-editor>
+                      <textarea class="input"  name="description" [(ngModel)]="product.description"></textarea>
                     </div>
                   </div>
 
