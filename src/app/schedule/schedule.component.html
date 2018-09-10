@@ -1,0 +1,172 @@
+<div [@routerTransition]>
+  <h1>
+    <span class="icon has-text-success">
+      <i class="fas fa-calendar-alt"></i>
+    </span> &nbsp;
+    Horários de {{ client.name }}
+  </h1>
+
+  <hr />
+
+  <div *ngIf="isLoading">
+    <div>
+      <h3>
+        <span class="icon has-text-danger">
+          <i class="fas fa-plus"></i>
+        </span> &nbsp;
+        Adicionar novo
+      </h3>
+
+      <form [formGroup]="addScheduleForm" (ngSubmit)="addSchedule()">
+        <div class="field">
+          <label for="description" class="label">Descrição</label>
+          <div class="control">
+            <input class="input" placeholder="Descrição" name="title" formControlName="title" type="text" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="start" class="label">Data Início</label>
+          <div class="control">
+            <p class="control has-icons-left">
+              <input [owlDateTime]="start" class="input" [owlDateTimeTrigger]="start" name="start" formControlName="start">
+              <span class="icon is-small is-left">
+                <i class="fas fa-calendar-alt"></i>
+              </span>
+            </p>
+            <owl-date-time #start></owl-date-time>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="end" class="label">Data Fim</label>
+          <div class="control">
+            <p class="control has-icons-left">
+              <input [owlDateTime]="end" class="input" [owlDateTimeTrigger]="end" name="end" formControlName="end">
+              <span class="icon is-small is-left">
+                <i class="fas fa-calendar-alt"></i>
+              </span>
+            </p>
+            <owl-date-time #end></owl-date-time>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="value" class="label">Valor</label>
+          <div class="control">
+            <input class="input" placeholder="Valor" name="value" formControlName="value" type="text" />
+          </div>
+        </div>
+
+        <div class="field">
+          <button type="submit" class="button is-success" name="submit" [disabled]="!addScheduleForm.valid">
+            <i class="fa fa-plus"></i> &nbsp;
+            Adicionar
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <hr>
+
+    <div *ngIf="schedules">
+      <h3>
+        <span class="icon has-text-warning">
+          <i class="fas fa-calendar-alt"></i>
+        </span> &nbsp;
+        Horários ({{ schedules.length }})
+      </h3>
+
+      <div [hidden]="!infoMsg.body" class="notification is-{{ infoMsg.type }}" role="alert">
+        {{ infoMsg.body }}
+      </div>
+
+      <div class="table-flex">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-striped">
+          <thead class="thead-default">
+            <tr>
+              <th width="30%">Nome</th>
+              <th align="center" width="30%">Ações</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="schedules.length > 0">
+            <tr *ngFor="let schedule of schedules">
+              <td>{{ schedule.title }}</td>
+              <td align="center">
+                <button class="button is-small is-warning" (click)="enableEditing(schedule)">
+                  <i class="fa fa-edit"></i>
+                </button>
+                <button class="button is-small is-danger" (click)="deleteSchedule(schedule)">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="isEditing">
+            <tr>
+              <td colspan="2">
+                <form #form="ngForm" (ngSubmit)="editSchedule(schedule)">
+                  <div class="field">
+                      <label for="description" class="label">Descrição</label>
+                      <div class="control">
+                        <input class="input" placeholder="Descrição" name="title" [(ngModel)]="schedule.title" type="text" />
+                      </div>
+                    </div>
+            
+                    <div class="field">
+                      <label for="start" class="label">Data Início</label>
+                      <div class="control">
+                        <p class="control has-icons-left">
+                          <input [owlDateTime]="start" class="input" [owlDateTimeTrigger]="start" name="start" [(ngModel)]="schedule.start">
+                          <span class="icon is-small is-left">
+                            <i class="fas fa-calendar-alt"></i>
+                          </span>
+                        </p>
+                        <owl-date-time #start></owl-date-time>
+                      </div>
+                    </div>
+            
+                    <div class="field">
+                      <label for="end" class="label">Data Fim</label>
+                      <div class="control">
+                        <p class="control has-icons-left">
+                          <input [owlDateTime]="end" class="input" [owlDateTimeTrigger]="end" name="end" [(ngModel)]="schedule.end">
+                          <span class="icon is-small is-left">
+                            <i class="fas fa-calendar-alt"></i>
+                          </span>
+                        </p>
+                        <owl-date-time #end></owl-date-time>
+                      </div>
+                    </div>
+            
+                    <div class="field">
+                      <label for="value" class="label">Valor</label>
+                      <div class="control">
+                        <input class="input" placeholder="Valor" name="value" [(ngModel)]="schedule.value" type="text" />
+                      </div>
+                    </div>
+          
+              
+                  <br />
+
+                  <div class="field">
+                    <button class="button is-success" type="submit" [disabled]="!form.form.valid">
+                      <i class="fa fa-floppy-o"></i> &nbsp; Salvar
+                    </button>
+                    <button class="button is-danger" (click)="cancelEditing()">
+                      <i class="fa fa-times"></i> &nbsp; Cancelar
+                    </button>
+                  </div>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading" class="loading">
+    <img src="assets/images/load.gif" alt="Carregando" />
+  </div>
+</div>

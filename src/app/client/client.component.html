@@ -172,8 +172,10 @@
             <tr *ngFor="let client of clients">
               <td>{{ client.name }}</td>
               <td align="center">{{ client.phone }}</td>
-              <td align="center" class="{{ client.isOnGroup == 1 ? 'has-text-success': 'has-text-danger' }}">{{ client.isOnGroup == 1 ? 'Sim': 'Não' }}</td>
               <td align="center">
+                <button class="button is-small is-success" (click)="showSchedules(client)">
+                  <i class="fa fa-calendar-alt"></i>
+                </button>
                 <button class="button is-small is-warning" (click)="enableEditing(client)">
                   <i class="fa fa-edit"></i>
                 </button>

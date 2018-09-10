@@ -7,6 +7,7 @@ import { DATATABLES_CONFIG } from '../core/_configs/datatable-pt-br.config';
 import { routerTransition } from '../core/_configs/router-transition.config';
 import { ScrollService } from '../core/_services/scroll.service';
 import { ClientService } from './client.service';
+import { Router } from '@angular/router';
 @Component({
   animations: [ routerTransition() ],
   selector: 'app-client',
@@ -46,7 +47,8 @@ export class ClientComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private _clientService: ClientService,
     private _scrollService: ScrollService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) { }
 
   addClient(): void {
@@ -160,5 +162,14 @@ export class ClientComponent implements OnInit, OnDestroy, AfterViewInit {
     this.infoMsg.body = body;
     this.infoMsg.type = type;
     window.setTimeout(() => this.infoMsg.body = '', time);
+  }
+
+  showSchedules(client): void {
+    this.router.navigate(['/horarios', client.id]).then(
+      () => {
+        console.warn('Route change');
+      },
+      error => console.error(error)
+    );
   }
 }
