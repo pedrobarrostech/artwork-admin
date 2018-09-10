@@ -1,0 +1,10 @@
+<div *ngIf="reports">
+  <google-chart 
+    [type]="'ColumnChart'" 
+    [options]="options" 
+    [data]="reports" 
+    [columnNames]="columnNames" 
+    [width]="800" 
+    [height]="500"
+  ></google-chart>
+</div>

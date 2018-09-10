@@ -27,6 +27,7 @@ import { SectionModule } from './section/section.module';
 import { ProductModule } from './product/product.module';
 import { DepartmentModule } from './department/department.module';
 import { ScheduleModule } from './schedule/schedule.module';
+import { MonthlyReportModule } from './monthly-report/monthly-report.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -45,6 +46,7 @@ import { ScheduleModule } from './schedule/schedule.module';
     DepartmentModule,
     SectionModule,
     ScheduleModule,
+    MonthlyReportModule,
     EventGalleryModule,
     UploadExampleModule,
     AngularFireModule.initializeApp(environment.firebase),
